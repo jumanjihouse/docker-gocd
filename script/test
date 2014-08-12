@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -e
+
+source script/functions
+
+say Start gocd-server container.
+#
+docker run -d \
+  --name gocd-server \
+  -p 8153:8153 \
+  -p 8154:8154 \
+  jumanjiman/gocd-server
+
+say Sleep 60 seconds to allow gocd-server to start up.
+#
+# It can actually take up to 2 minutes to fully start,
+# but agent retries to connect.
+for x in $(seq 1 60); do echo -n "."; sleep 1; done
+echo
+
+say Start gocd-agent container.
+#
+docker run -d \
+  --name gocd-agent \
+  --link gocd-server:server \
+  jumanjiman/gocd-agent
+
+say To-Do: implement test.

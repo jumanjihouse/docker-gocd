@@ -1,0 +1,17 @@
+smitty() {
+  echo; echo
+  echo -e "[INFO] $@"
+  "$@"
+}
+
+err() {
+  echo "[ERROR] $@" >&2
+  exit 1
+}
+
+say() {
+  echo
+  echo '===>' $@
+}
+
+mgmt_ip=$(ip route get 8.8.8.8 | awk '/src/ {print $NF}')
