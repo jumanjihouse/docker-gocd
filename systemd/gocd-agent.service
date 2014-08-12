@@ -1,0 +1,17 @@
+[Unit]
+Description=gocd agent
+After=gocd-server.service
+Requires=gocd-server.service
+
+[Service]
+ExecStartPre=/bin/bash -c '/usr/bin/docker inspect %n &> /dev/null && /usr/bin/docker rm %n || :'
+ExecStart=/usr/bin/docker run \
+  --name %n \
+  --link gocd-server.service:server \
+  jumanjiman/gocd-agent
+ExecStop=/usr/bin/docker stop %n
+RestartSec=5s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
