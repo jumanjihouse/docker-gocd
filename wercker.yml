@@ -1,0 +1,24 @@
+box: wercker-labs/docker
+build:
+  steps:
+    - script:
+        name: print the docker version
+        code: docker version
+    - script:
+        name: print system-wide docker info
+        code: docker info
+    - script:
+        name: remove existing containers if necessary
+        code: script/00_build.sh
+    - script:
+        name: build gocd base image
+        code: script/05_build.sh
+    - script:
+        name: build gocd agent
+        code: script/10_build.sh
+    - script:
+        name: build gocd server
+        code: script/15_build.sh
+    - script:
+        name: run the test suite
+        code: script/test
