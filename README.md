@@ -81,3 +81,11 @@ References
 * https://docs.puppetlabs.com/
 * https://docs.docker.com/
 * https://coreos.com/docs/
+
+
+Other ways to deploy gocd
+-------------------------
+
+* Ubuntu image: https://github.com/extraordinaire/docker-gocd-server
+* Ubuntu image: https://github.com/extraordinaire/docker-gocd-agent
+* Windows package: https://chocolatey.org/packages/Thoughtworks.Go.Agent
