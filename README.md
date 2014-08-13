@@ -13,6 +13,10 @@ This repo contains scripts and source to build docker images for:
 * [go continuous delivery](http://www.go.cd/) agent
 
 The images are based on CentOS 6.5.
+Trusted builds are at:
+
+* https://registry.hub.docker.com/u/jumanjiman/gocd-agent/
+* https://registry.hub.docker.com/u/jumanjiman/gocd-server/
 
 
 Troubleshoot outside a container
@@ -71,7 +75,7 @@ If you only want to see it in action, run this command from the repo:
 script/test
 ```
 
-:warning: The above command pulls `jumanjiman/gocd-*` and
+:warning: The above command pulls `jumanjiman/gocd-*` trusted builds and
 can take several minutes to complete.
 
 
