@@ -10,46 +10,37 @@ You currently need at least one host to deploy this.
    sudo cp /usr/lib64/systemd/system/docker.service /etc/systemd/system/
 
    sudo vim /etc/systemd/system/docker.service
-   # Modify to have:
+   # Modify to have a proxy, such as:
    # Environment="TMPDIR=/var/tmp/" "HTTP_PROXY=http://proxy.inf.ise.com:3128"
 
    sudo systemctl daemon-reload
    sudo systemctl restart docker.service
    ```
 
-1. Deploy the server:
+1. Optionally pre-fetch the docker images:
 
    ```bash
-   # Download prebuilt image.
    docker pull jumanjiman/gocd-server
-
-   # Install systemd unit files.
-   git clone https://github.com/jumanjihouse/docker-gocd.git
-   cd docker-gocd
-   sudo cp systemd/gocd-server.service /etc/systemd/system/
-   sudo systemctl daemon-reload
-
-   # Run the master.
-   sudo systemctl enable gocd-server.service
-   sudo systemctl start gocd-server.service
+   docker pull jumanjiman/gocd-agent
    ```
 
-1. Deploy the agent:
+1. Deploy the systemd unit files:
 
    ```bash
-   # Download prebuilt image.
-   docker pull jumanjiman/gocd-agent
-
-   # Install systemd unit files.
    git clone https://github.com/jumanjihouse/docker-gocd.git
    cd docker-gocd
-   sudo cp systemd/gocd-agent.service /etc/systemd/system/
+   sudo cp systemd/* /etc/systemd/system/
    sudo systemctl daemon-reload
-
-   # Run the containers.
-   sudo systemctl enable gocd-agent.service
-   sudo systemctl start gocd-agent.service
    ```
 
-1. Open http://<ip-of-server>:8153<br/>
+1. Activate server and agent containers:
+
+   ```bash
+   for c in server agent; do
+     sudo systemctl enable gocd-${c}.service
+     sudo systemctl start gocd-${c}.service
+   done
+   ```
+
+1. Open `http://<ip-of-server>:8153`<br/>
    :warning: It can take up to two minutes for the server to full start.
