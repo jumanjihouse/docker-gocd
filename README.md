@@ -42,8 +42,12 @@ Troubleshoot inside a container
 1. Enter a container:
 
    ```bash
-   # This examples assumes the gocd-agent container.
-   PID=$(docker inspect --format {{.State.Pid}} gocd-agent)
+   # This example assumes the gocd-agent container.
+   PID=$(docker inspect --format {{.State.Pid}} gocd-agent.service)
+   sudo /tmp/nsenter --target $PID --mount --uts --ipc --net --pid
+
+   # This example assumes the gocd-server container.
+   PID=$(docker inspect --format {{.State.Pid}} gocd-server.service)
    sudo /tmp/nsenter --target $PID --mount --uts --ipc --net --pid
    ```
 
@@ -64,8 +68,11 @@ See DEPLOY.md in this repo.
 If you only want to see it in action, run this command from the repo:
 
 ```bash
-script/build.sh && script/test
+script/test
 ```
+
+:warning: The above command pulls `jumanjiman/gocd-*` and
+can take several minutes to complete.
 
 
 License
